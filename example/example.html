@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Sophtron Widget Loader Example</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+</head>
+  <body style="background:url(/images/loan.jpeg); max-height: 99vh; overflow:hidden;">
+    
+    <!-- <script type="text/javascript" src="https://cdn.sophtron.com/sophtron-widget-loader-0.0.0.1.min.js" ></script> -->
+    <script type="text/javascript" src="/js/sophtron-widget-loader.js" ></script>
+    <script type="text/javascript" >
+      function onEvent(e){
+        console.log(e)
+      }
+      function init(action){
+        sophtron.init(action , { 
+            env: 'local',
+            partner: 'default',
+            integration_key: '$integration_key',
+            request_id: '$request_id',
+            institution_id: '$institution_id',
+            userInstitution_id: '$userInstitution_id',
+            onShow: onEvent,
+            onInit: onEvent,
+            onClose: onEvent,
+            onSelectBank: onEvent,
+            onLogin: onEvent,
+            onMfa: onEvent,
+            onFinish: onEvent,
+            onError: onEvent,
+        }, true );
+      }
+      init('BankAuth');
+    </script>
+    <div class="container body-content">
+      <div style="padding:50px;">
+        <div style=" margin:auto; padding: 50px; min-height:700px">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <br />
+                  <br />
+                  <h2>sophtron-widget-loader example</h2>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <b>Choose action</b>
+                </div>
+              </div>
+                <div class="row">
+                    <div class="col-md-2">
+                      <select class="form-select" aria-label="Default select example" onchange="init(this.value)">
+                        <option value="Add">Add</option>
+                        <option value="Refresh">Refresh</option>
+                        <option value="BankAuth">BankAuth</option>
+                      </select>
+                      <br />
+                      <button id="start_btn" type="button" class="btn btn-success w-100" onclick="sophtron.show()">Show</button>
+                    </div>
+                    <div class="col-md-10">
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      <hr />
+      <footer>
+          <p>&copy; 2019 - Sohptron Example</p>
+      </footer>
+  </div>
+  </body>
+ </html>

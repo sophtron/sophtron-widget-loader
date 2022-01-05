@@ -1,0 +1,24 @@
+{
+  "name": "sophtron-widget-example-site",
+  "version": "1.0.0",
+  "description": "An example server code for initializing a sophtron-widget",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sophtron/sophtron-widget-loader.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sophtron/sophtron-widget-loader/issues"
+  },
+  "homepage": "https://github.com/sophtron/sophtron-widget-loader#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "express": "^4.17.2"
+  }
+}
