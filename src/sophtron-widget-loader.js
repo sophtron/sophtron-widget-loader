@@ -150,8 +150,12 @@ var sophtron = (function(){
             throw Error('Invalid env ' + conf.env);
         }
         let ret= `${urls[conf.env]}/${conf.partner}/${action}?integration_key=${conf.integration_key || '' }&request_id=${conf.request_id || ''}`;
-        if(action == 'Refresh' && conf.userInstitution_id ){
-            ret += `&userinstitution_id=${conf.userInstitution_id}`;
+        if(action == 'Refresh'){
+            if(conf.userInstitution_id ){
+                ret += `&userinstitution_id=${conf.userInstitution_id}`;
+            }else{
+                throw Error('Missing userinstitution_id param for refresh');
+            }
         }else if(conf.institution_id ){
             ret += `&institution_id=${conf.institution_id}`;
         }else if(conf.routing_number ){

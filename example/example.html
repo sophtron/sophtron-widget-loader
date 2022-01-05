@@ -17,7 +17,7 @@
       }
       function init(action){
         sophtron.init(action , { 
-            env: 'local',
+            env: 'preview',
             partner: 'default',
             integration_key: '$integration_key',
             request_id: '$request_id',
@@ -33,7 +33,7 @@
             onError: onEvent,
         }, true );
       }
-      init('BankAuth');
+      init('Add');
     </script>
     <div class="container body-content">
       <div style="padding:50px;">

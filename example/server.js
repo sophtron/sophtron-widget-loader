@@ -7,8 +7,8 @@ const fs = require('fs');
 
 const apiClient = (function(){
     
-    const userId = process.env.ApiUserId;
-    const accessKey = process.env.ApiUserSecret;
+    const userId = process.env.SophtronApiUserId;
+    const accessKey = process.env.SophtronApiUserSecret;
     const apiBaseUrl = 'https://api.sophtron-prod.com/api/';
     const apiEndpoints = {
         GetInstitutionByName: 'Institution/GetInstitutionByName',
@@ -16,7 +16,8 @@ const apiClient = (function(){
         GetUserIntegrationKey: 'User/GetUserIntegrationKey',
         GetJobInformationByID: 'Job/GetJobInformationByID'
     }
-    
+    // console.log(userId);
+    // console.log(accessKey);
     function buildAuthCode(httpMethod, url) {
         var authPath = url.substring(url.lastIndexOf('/')).toLowerCase();
         var integrationKey = Buffer.from(accessKey, 'base64');
@@ -64,21 +65,33 @@ const apiClient = (function(){
     }
 })();
 
+const sophtronMockedBankNames = [
+    'Sophtron Bank', // 0
+    'Sophtron Bank Business', // 1
+    'Sophtron Bank Captcha', // 2
+    'Sophtron Bank NoMFA', // 3
+    'Sophtron Bank SecurityQuestion', // 4
+    'Sophtron Bank SecurityQuestion Multiple', // 5
+    'Sophtron Bank Token', // 6
+    'Sophtron Bank TokenRead', // 7
+];
+
 (async function(){
     const widgetbaseUrl = 'https://widget.sophtron-prod.com';
     let integration_key = (await apiClient.getIngrationKey()).IntegrationKey;
-    let mockedInstitutions = await apiClient.getInstitutionByName('sophtron bank');
+    let mockedInstitutions = await apiClient.getInstitutionByName(sophtronMockedBankNames[3]);
+    //console.log(mockedInstitutions);
     let institution_id = (mockedInstitutions || []).length > 0 ? mockedInstitutions[0].InstitutionID : '';
     let userInstitutions = await apiClient.getUserInstitutionsByUser();
     let userInstitution = (userInstitutions || []).find( i => i.InstitutionID == institution_id);
     let userInstitution_id = (userInstitution || {}).UserInstitutionID;
     let request_id= crypto.randomBytes(16).toString("hex");
-    var param = {
+    console.log({
         integration_key,
         institution_id,
         userInstitution_id,
         request_id
-    };
+    });
     
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -89,6 +102,9 @@ const apiClient = (function(){
         console.log(req.path);
         console.log(req.body);
         res.status(200).send('ok')
+    });
+    app.get('/hang', () => {
+        console.log('simulating a hanging')
     });
     app.get('*', (req, res) => {
         fs.readFile('example.html', 'utf-8', (err, data) => {
