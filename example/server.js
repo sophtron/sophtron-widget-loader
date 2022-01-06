@@ -86,13 +86,21 @@ const sophtronMockedBankNames = [
     let userInstitution = (userInstitutions || []).find( i => i.InstitutionID == institution_id);
     let userInstitution_id = (userInstitution || {}).UserInstitutionID;
     let request_id= crypto.randomBytes(16).toString("hex");
+    //this will get integration_key ready, for this example server, request the key when loading the server for simpler logic, 
+    // the key may expire during testing, simply close the server and restart to get a new one.
+    // in production code, you would want to explore the 'getIngrationKey' result and check its expiration time
     console.log({
         integration_key,
         institution_id,
         userInstitution_id,
         request_id
     });
-    
+    // var options = {
+    //     inflate: true,
+    //     limit: '100kb',
+    //     type: '*/*'
+    //   };
+    // app.use(bodyParser.raw(options));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use('/images', express.static('images'))
@@ -100,7 +108,9 @@ const sophtronMockedBankNames = [
 
     app.post('*', (req, res) => {
         console.log(req.path);
-        console.log(req.body);
+        console.log(req.headers);
+        console.log(req.body); // when json
+        //console.log(req.body.toString('utf8')); //when raw
         res.status(200).send('ok')
     });
     app.get('/hang', () => {

@@ -1,3 +1,4 @@
 #!/bin/sh
 
-uglifyjs --compress --mangle -- src/sophtron-widget-loader.js > dist/sophtron-widget-loader-0.0.0.1.min.js
+mkdir -p dist
+uglifyjs --compress --mangle -- src/sophtron-widget-loader.js > dist/sophtron-widget-loader-0.0.0.2.min.js
