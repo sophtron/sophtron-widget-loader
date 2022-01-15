@@ -8,15 +8,15 @@ var sophtron = (function(){
     }
 
     var actions = [
-        //'Mock',
-        //'Demo',
         'Add',
         'Refresh',
-        'BankAuth'
+        'BankAuth',
+        'Mock',
+        'Demo',
     ];
 
     var defaultConf = {
-        env: 'prod',
+        env: 'preview',
         partner: 'default',
         integration_key: '',
         request_id: '',
@@ -29,6 +29,7 @@ var sophtron = (function(){
         onClose: null,
         onSelectBank: null,
         onLogin: null,
+        onLoginSuccess: null,
         onMfa: null,
         onFinish: null, //widget closes if this handler returns true
         onError: null,
@@ -88,6 +89,14 @@ var sophtron = (function(){
                             });
                         }
                         break;
+                    case 'LoginSuccess':
+                        if(state.config.onLoginSuccess){
+                            state.config.onLoginSuccess({
+                                _type: 'onLoginSuccess',
+                                ...message.data
+                            });
+                        }
+                        break;
                     case 'SelectBank':
                         if(state.config.onSelectBank){
                             state.config.onSelectBank({
@@ -134,6 +143,7 @@ var sophtron = (function(){
                         if(state.config.onInit){
                             state.config.onInit({
                                 _type: 'onInit',
+                                env: state.config.env,
                                 action: message.data.initAction
                             });
                         }
