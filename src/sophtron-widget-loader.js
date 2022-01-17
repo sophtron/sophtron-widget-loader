@@ -4,7 +4,7 @@ var sophtron = (function(){
         preview: 'https://widget.sophtron-prod.com',
         legacy: 'https://sophtron.com/integration',
         mock: 'http://localhost:8081',
-        local: 'http://localhost:8080'
+        local: 'http://localhost:8080',
     }
 
     var actions = [
@@ -154,12 +154,17 @@ var sophtron = (function(){
     }
 
     function getWidgetUrl(action, conf){
-        if(!urls[conf.env]){
+        if(conf.env === 'custom'){
+            var url = conf.customEnvUrl;
+        }else{
+            var url = urls[conf.env];
+        }
+        if(!url){
             console.log('Expected envs: ');
             console.log(Object.keys(urls));
             throw Error('Invalid env ' + conf.env);
         }
-        let ret= `${urls[conf.env]}/${conf.partner}/${action}?integration_key=${conf.integration_key || '' }&request_id=${conf.request_id || ''}`;
+        let ret= `${url}/${conf.partner}/${action}?integration_key=${conf.integration_key || '' }&request_id=${conf.request_id || ''}`;
         if(action == 'Refresh'){
             if(conf.userInstitution_id ){
                 ret += `&userinstitution_id=${conf.userInstitution_id}`;
