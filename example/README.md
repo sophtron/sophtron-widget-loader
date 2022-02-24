@@ -5,7 +5,7 @@
 - In the current path (`example`), `npm i` and `node server.js`
 - The code will get all essential paramters ready to get the example running.
 - The server will then listen on port 63880 to serve a default html page, navigate to http://localhost:63880 to load the example page.
-- It will also listen on port 63880 on any post requests for callbacks, it will simply log callbacks to console. [callback example here](/server.js#L115)
+- It will also listen on port 63880 on any post requests for callbacks, it will simply log callbacks to console. [callback example here](server.js#L115)
 - *callback address is pre-configured in your account settings, it needs to be publickly accessible
 - It generates a random string as the request_id, request_id is for caller to identify session when receiving call back
 - The code will find the mocked "sophtron bank" id for you to play with for the scenario of pre-selecting bank,
