@@ -106,11 +106,20 @@ const sophtronMockedBankNames = [
     app.use('/images', express.static('images'))
     app.use('/js', express.static('../src'))
 
+    // Listen to an endpoint to receive serverside call back. call back url can be configured at https://sophtron.com/Manage/Developer
     app.post('*', (req, res) => {
         console.log(req.path);
         console.log(req.headers);
-        console.log(req.body); // when json
-        //console.log(req.body.toString('utf8')); //when raw
+        //console.log(req.body.toString('utf8')); 
+        console.log(req.body); // print the json call back
+        // The callback retrieved will be in the following schema
+        // {
+        //     "Status" : "integration_success", // or "integration_failed"
+        //     "UserInstitutionID": "<guid>", //when job succeeded, the UserInstitutionID is returned in the callback
+        //     "RequestId" : "the enduser session identifier passed in when initializing the widget",
+        //     "JobID" : "<guid>", //if the job is entirely finished, JobId is not available anymore,
+        //     "Error" : "(optional) the error code when job failed"
+        // }
         res.status(200).send('ok')
     });
     app.get('/hang', () => {
