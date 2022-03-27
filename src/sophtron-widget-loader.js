@@ -11,6 +11,8 @@ var sophtron = (function(){
         'Add',
         'Refresh',
         'BankAuth',
+        'Verify',
+        'Utils',
         'Mock',
         'Demo',
     ];

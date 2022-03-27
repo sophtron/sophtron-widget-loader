@@ -10,7 +10,7 @@ This repo provides a js loader for [Sophtron](https://sophtron.com/) Widget
     ```
     or our hosted version 
     ```html
-    <script type="text/javascript" src="https://cdn.sophtron.com/sophtron-widget-loader-0.0.0.4.min.js" ></script>
+    <script type="text/javascript" src="https://cdn.sophtron.com/sophtron-widget-loader-0.0.0.5.min.js" ></script>
     ```
 - Init sophtron with the `sophtron.init` then call `sophtron.show()`
 ```js

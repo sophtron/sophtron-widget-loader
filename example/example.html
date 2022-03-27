@@ -9,7 +9,7 @@
 </head>
   <body style="background:url(/images/loan.jpeg); max-height: 99vh; overflow:hidden;">
     
-    <!-- <script type="text/javascript" src="https://cdn.sophtron.com/sophtron-widget-loader-0.0.0.4.min.js" ></script> -->
+    <!-- <script type="text/javascript" src="https://cdn.sophtron.com/sophtron-widget-loader-0.0.0.5.min.js" ></script> -->
     <script type="text/javascript" src="/js/sophtron-widget-loader.js" ></script>
     <script type="text/javascript" >
       function onEvent(e){
@@ -17,7 +17,7 @@
       }
       function init(action){
         sophtron.init(action , { 
-            env: 'preview',
+            env: 'prod',
             partner: 'default',
             integration_key: '$integration_key',
             request_id: '$request_id',
@@ -60,6 +60,8 @@
                         <option value="Add">Add</option>
                         <option value="Refresh">Refresh</option>
                         <option value="BankAuth">BankAuth</option>
+                        <option value="Verify">Verify</option>
+                        <option value="Utils">Utils</option>
                       </select>
                       <br />
                       <button id="start_btn" type="button" class="btn btn-success w-100" onclick="sophtron.show()">Show</button>
