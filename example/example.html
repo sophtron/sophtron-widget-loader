@@ -17,6 +17,11 @@
       function onEvent(e){
         console.log(e)
       }
+      function onError(e){
+        if(e.error === 401){
+          init();
+        }
+      }
       function init(action){
         currentAction = action || currentAction;
         axios.post('/integrationInfo').then(res => {
@@ -35,12 +40,11 @@
             onLoginSuccess: onEvent,
             onMfa: onEvent,
             onFinish: onEvent,
-            onError: onEvent,
+            onError: onError,
           }, true );
         })
       }
       init();
-      let interval = setInterval(init, 3 * 60 * 1000) //3 minutes
     </script>
     <div class="container body-content">
       <div style="padding:50px;">
