@@ -78,23 +78,12 @@ const sophtronMockedBankNames = [
 
 (async function(){
     const widgetbaseUrl = 'https://widget.sophtron-prod.com';
-    let integration_key = (await apiClient.getIngrationKey()).IntegrationKey;
     let mockedInstitutions = await apiClient.getInstitutionByName(sophtronMockedBankNames[3]);
     //console.log(mockedInstitutions);
     let institution_id = (mockedInstitutions || []).length > 0 ? mockedInstitutions[0].InstitutionID : '';
     let userInstitutions = await apiClient.getUserInstitutionsByUser();
     let userInstitution = (userInstitutions || []).find( i => i.InstitutionID == institution_id);
     let userInstitution_id = (userInstitution || {}).UserInstitutionID;
-    let request_id= crypto.randomBytes(16).toString("hex");
-    //this will get integration_key ready, for this example server, request the key when loading the server for simpler logic, 
-    // the key may expire during testing, simply close the server and restart to get a new one.
-    // in production code, you would want to explore the 'getIngrationKey' result and check its expiration time
-    console.log({
-        integration_key,
-        institution_id,
-        userInstitution_id,
-        request_id
-    });
     // var options = {
     //     inflate: true,
     //     limit: '100kb',
@@ -106,6 +95,21 @@ const sophtronMockedBankNames = [
     app.use('/images', express.static('images'))
     app.use('/js', express.static('../src'))
 
+    app.post('/integrationInfo', async (req, res) => {
+        let integration_key = (await apiClient.getIngrationKey()).IntegrationKey;
+        let request_id= crypto.randomBytes(16).toString("hex");
+        //this will get integration_key ready, for this example server, request the key when loading the server for simpler logic, 
+        // the key may expire during testing, simply close the server and restart to get a new one.
+        // in production code, you would want to explore the 'getIngrationKey' result and check its expiration time
+        let ret ={
+            integration_key,
+            institution_id,
+            userInstitution_id,
+            request_id
+        };
+        console.log(ret);
+        res.send(ret);
+    }),
     // Listen to an endpoint to receive serverside call back. call back url can be configured at https://sophtron.com/Manage/Developer
     app.post('*', (req, res) => {
         console.log(req.path);
@@ -126,14 +130,7 @@ const sophtronMockedBankNames = [
         console.log('simulating a hanging')
     });
     app.get('*', (req, res) => {
-        fs.readFile('example.html', 'utf-8', (err, data) => {
-            res.send(data
-                .replace('$request_id', request_id)
-                .replace('$integration_key', integration_key)
-                .replace('$institution_id', institution_id)
-                .replace('$userInstitution_id', userInstitution_id)
-                );
-        });
+        res.sendFile(__dirname + '/example.html')
     });
     const port= 63880;
     app.listen(port, () => {

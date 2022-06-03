@@ -10,19 +10,23 @@
   <body style="background:url(/images/loan.jpeg); max-height: 99vh; overflow:hidden;">
     
     <!-- <script type="text/javascript" src="https://cdn.sophtron.com/sophtron-widget-loader-0.0.0.5.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="/js/sophtron-widget-loader.js" ></script>
     <script type="text/javascript" >
+      var currentAction = 'Add';
       function onEvent(e){
         console.log(e)
       }
       function init(action){
-        sophtron.init(action , { 
+        currentAction = action || currentAction;
+        axios.post('/integrationInfo').then(res => {
+          sophtron.init(currentAction , { 
             env: 'prod',
             partner: 'default',
-            integration_key: '$integration_key',
-            request_id: '$request_id',
-            //institution_id: '$institution_id',
-            userInstitution_id: '$userInstitution_id',
+            integration_key: res.data.integration_key,
+            request_id: res.data.request_id,
+            institution_id: res.data.institution_id,
+            userInstitution_id: res.data.userInstitution_id,
             onShow: onEvent,
             onInit: onEvent,
             onClose: onEvent,
@@ -32,9 +36,11 @@
             onMfa: onEvent,
             onFinish: onEvent,
             onError: onEvent,
-        }, true );
+          }, true );
+        })
       }
-      init('Add');
+      init();
+      let interval = setInterval(init, 3 * 60 * 1000) //3 minutes
     </script>
     <div class="container body-content">
       <div style="padding:50px;">
