@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="">
   <head>
     <meta charset="utf-8">
@@ -13,6 +12,14 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="/js/sophtron-widget-loader.js" ></script>
     <script type="text/javascript" >
+      function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+        function(m,key,value) {
+          vars[key] = value;
+        });
+        return vars;
+      }
       var currentAction = 'Add';
       function onEvent(e){
         console.log(e)
@@ -23,15 +30,16 @@
         }
       }
       function init(action){
+        let params = getUrlVars(window.location)
         currentAction = action || currentAction;
         axios.post('/integrationInfo').then(res => {
           sophtron.init(currentAction , { 
-            env: 'prod',
+            env: params.env || 'prod',
             partner: 'default',
             integration_key: res.data.integration_key,
             request_id: res.data.request_id,
-            institution_id: res.data.institution_id,
-            userInstitution_id: res.data.userInstitution_id,
+            // institution_id: res.data.institution_id,
+            // userInstitution_id: res.data.userInstitution_id,
             onShow: onEvent,
             onInit: onEvent,
             onClose: onEvent,
@@ -68,6 +76,7 @@
                     <div class="col-md-2">
                       <select class="form-select" aria-label="Default select example" onchange="init(this.value)">
                         <option value="Add">Add</option>
+                        <option value="All">All</option>
                         <option value="Refresh">Refresh</option>
                         <option value="BankAuth">BankAuth</option>
                         <option value="Verify">Verify</option>
