@@ -129,6 +129,14 @@ const sophtronMockedBankNames = [
     app.get('/hang', () => {
         console.log('simulating a hanging')
     });
+    app.get('/echo', (req, res) => {
+        console.log(req.headers)
+        console.log(req.body)
+        res.send({
+          headers: req.headers,
+          body: req.body,
+        })
+    });
     app.get('*', (req, res) => {
         res.sendFile(__dirname + '/example.html')
     });
